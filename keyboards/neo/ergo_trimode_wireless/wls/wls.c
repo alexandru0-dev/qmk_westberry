@@ -141,16 +141,21 @@ void lpwr_exti_init_hook(void) {
         }
 #endif
     }
+
+#ifdef HS_BAT_CABLE_PIN
     setPinInput(HS_BAT_CABLE_PIN);
     waitInputPinDelay();
     palEnableLineEvent(HS_BAT_CABLE_PIN, PAL_EVENT_MODE_RISING_EDGE);
+#endif
 }
 
 void palcallback_cb(uint8_t line) {
     switch (line) {
+#ifdef HS_BAT_CABLE_PIN
         case PAL_PAD(HS_BAT_CABLE_PIN): {
             lpwr_set_sleep_wakeupcd(LPWR_WAKEUP_CABLE);
         } break;
+#endif
 #ifdef HS_2G4_DEF_PIN
         case PAL_PAD(HS_2G4_DEF_PIN): {
             lpwr_set_sleep_wakeupcd(LPWR_WAKEUP_SWITCH);
